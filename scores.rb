@@ -9,3 +9,15 @@ puts "*" * 20
 puts scores.any? { |score| score < 70 }
 puts "*" * 20
 puts scores.detect { |score| score < 70 }
+puts "*" * 20
+scores_doubled = scores.map { |score| score * 2 }
+p scores_doubled
+puts "*" * 20
+total = scores.reduce(0, :+)
+puts "Total score: #{total}"
+puts "*" * 20
+evens, odds = scores.partition { |score| score.even? }
+puts "Evens:"
+p evens
+puts "Odds:"
+p odds

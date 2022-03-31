@@ -30,3 +30,23 @@ puts flyers.any? { |flyer| flyer.status == :platinum }
 puts "*" * 20
 first_bronze_flyer = flyers.detect { |flyer| flyer.status == :bronze }
 puts first_bronze_flyer
+puts "*" * 20
+platinum_flyers, other_flyers = flyers.partition { |flyer| flyer.status == :platinum }
+
+puts "Platinum Flyers:"
+puts platinum_flyers
+
+puts "Other Flyers:"
+puts other_flyers
+puts "*" * 20
+name_tags = flyers.map { |flyer| "#{flyer.name} (#{flyer.status.upcase})"}
+p name_tags
+puts "*" * 20
+totals_in_kms = flyers.map { |flyer| flyer.miles_flown * 1.6 }
+p totals_in_kms
+puts "*" * 20
+total_miles_flown = flyers.reduce(0) { |sum, flyer| sum + flyer.miles_flown }
+puts "Total miles flown: #{total_miles_flown}"
+puts "*" * 20
+total_kms_flown = flyers.map { |flyer| flyer.miles_flown * 1.6 }.reduce(0, :+)
+puts "Total km flown: #{total_kms_flown}"
