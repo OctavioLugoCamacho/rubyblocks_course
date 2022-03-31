@@ -1,30 +1,36 @@
 class Order
-  attr_reader :email, :total
+  TAX_TABLE = { "CO" => 0.02, "MT" => 0.00, "AZ" => 0.04}
+  attr_reader :email, :total, :state, :status
 
-  def initialize(email, total)
+  def initialize(email, state, total, status = :pending)
     @email = email
+    @state = state
     @total = total
+    @status = status
+  end
+
+  def tax
+    total * TAX_TABLE[state]
   end
 
   def to_s
-    "#{@email}: $#{@total}"
+    "#{email} (#{state}): $#{total} - #{status}"
   end
 end
 
 orders = []
-1.upto(5) do |n|
-  orders << Order.new("octavio#{n}@makingdevs.com", n * 10)
-end
+orders << Order.new("octavio1@makingdevs.com", "MT", 300)
+orders << Order.new("octavio2@makingdevs.com", "AZ", 400, :completed)
+orders << Order.new("octavio3@makingdevs.com", "CO", 200)
+orders << Order.new("octavio4@makingdevs.com", "CO", 100, :completed)
 
-puts "Newsletters emails:"
+puts orders
 
-orders.each { |o| puts o.email}
+puts "Big orders:"
+puts orders.select { |o| o.total >= 300 }
 
-sum = 0
-orders.each { |o| sum += o.total}
-puts "Total sales: $#{sum}"
+puts "Small orders:"
+puts orders.reject { |o| o.total >= 300 }
 
-taxes = { "CO" => 0.02, "MT" => 0.00, "AZ" => 0.04}
-taxes.each do |key, value|
-  puts "#{key}: #{value * 100}%"
-end
+puts orders.any? { |o| o.status == :pending }
+puts orders.detect { |o| o.status == :pending }
