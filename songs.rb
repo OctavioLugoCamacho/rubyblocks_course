@@ -1,3 +1,5 @@
+require_relative 'my_enumerable'
+
 class Song
   attr_reader :name, :artist, :duration
 
@@ -23,7 +25,7 @@ song2 = Song.new("Ramblin' Man", "Hank", 7)
 song3 = Song.new("Good Hearted Woman", "Waylon", 6)
 
 class Playlist
-  include Enumerable
+  include MyEnumerable
 
   def initialize(name)
     @name = name
@@ -58,19 +60,19 @@ playlist.add_song(song3)
 
 playlist.each { |song| song.play }
 
-okie_songs = playlist.select { |song| song.name =~ /Okie/ }
+okie_songs = playlist.my_select { |song| song.name =~ /Okie/ }
 p okie_songs
 
-non_okie_songs = playlist.reject { |song| song.name =~ /Okie/ }
+non_okie_songs = playlist.my_reject { |song| song.name =~ /Okie/ }
 p non_okie_songs
 
-p playlist.any? { |song| song.artist == "Hank" }
-p playlist.detect { |song| song.artist == "Hank" }
+p playlist.my_any? { |song| song.artist == "Hank" }
+p playlist.my_detect { |song| song.artist == "Hank" }
 
-song_labels = playlist.map { |song| "#{song.name} - #{song.artist}" }
+song_labels = playlist.my_map { |song| "#{song.name} - #{song.artist}" }
 p song_labels
 
-total_duration = playlist.reduce(0) { |sum, song| sum + song.duration }
-p total_duration
+# total_duration = playlist.reduce(0) { |sum, song| sum + song.duration }
+# p total_duration
 
-playlist.each_by_artist("Hank") { |song| song.play }
+# playlist.each_by_artist("Hank") { |song| song.play }
